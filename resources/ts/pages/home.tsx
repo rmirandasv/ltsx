@@ -8,16 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "@inertiajs/react";
+import route from "ziggy-js";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background antialiased flex flex-col">
       <div className="px-4 py-3 flex items-center justify-end space-x-3 bg-gray-100">
         <Button asChild>
-          <Link href="/login">Login</Link>
+          <Link href={route('login')}>Login</Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href="/register">Register</Link>
+          <Link href={route('register')}>Register</Link>
         </Button>
       </div>
       <div className="max-w-7xl w-full mx-auto py-6 px-4">
