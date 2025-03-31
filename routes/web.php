@@ -11,4 +11,7 @@ Route::get('/register', fn () => Inertia::render('auth/register'))->name('regist
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/settings', fn () => Inertia::render('settings/index'))->name('settings');
+    Route::get('/settings/profile', fn () => Inertia::render('settings/profile'))->name('settings.profile');
 });

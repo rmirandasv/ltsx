@@ -15,3 +15,8 @@ export type Auth = {
 export type SharedData = {
     auth: Auth;
 };
+
+export type AppBreadcrumbItem = {
+  label: string;
+  href: string;
+};
