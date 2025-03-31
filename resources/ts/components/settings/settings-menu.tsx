@@ -12,10 +12,10 @@ export default function SettingsMenu() {
     <VerticalMenu>
       <VerticalMenuHeader>Settings</VerticalMenuHeader>
       <VerticalMenuList>
-        <VerticalMenuListItem>
+        <VerticalMenuListItem active={route().current("settings.profile")}>
           <Link href={route("settings.profile")}>Profile</Link>
         </VerticalMenuListItem>
-        <VerticalMenuListItem>
+        <VerticalMenuListItem active={route().current("settings")}>
           <Link href={route("settings")}>Password</Link>
         </VerticalMenuListItem>
       </VerticalMenuList>
