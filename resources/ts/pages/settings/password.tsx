@@ -1,4 +1,5 @@
 import SettingsLayout from "@/components/layouts/settings/settings-layout";
+import ChangePasswordForm from "@/components/settings/change-password-form";
 import Heading from "@/components/ui/heading";
 import route from "ziggy-js";
 
@@ -17,6 +18,7 @@ export default function Password() {
         title="Account password"
         description="Change your password, manage your security settings, and more."
       />
+      <ChangePasswordForm />
     </SettingsLayout>
   );
 }

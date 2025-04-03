@@ -3,6 +3,7 @@ import { ComponentProps } from "react";
 
 export function VerticalMenuListItem({
   className,
+  active,
   ...props
 }: {
   active?: boolean;
@@ -15,7 +16,7 @@ export function VerticalMenuListItem({
         "w-full *:w-full py-2 px-4 inline-flex items-start gap-1.5 hover:text-foreground transition-colors",
         {
           "cursor-not-allowed opacity-60": props.disabled,
-          "text-foreground bg-accent hover:bg-accent/50 rounded-md": props.active,
+          "text-foreground bg-accent hover:bg-accent/50 rounded-md": active,
         },
         className
       )}

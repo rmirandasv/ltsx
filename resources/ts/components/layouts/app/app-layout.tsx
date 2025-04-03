@@ -4,6 +4,7 @@ import { AppSidebar } from "./app-sidebar";
 import { Head } from "@inertiajs/react";
 import { AppBreadcrumbItem } from "@/types";
 import AppBreadcrumb from "./app-breadcrumb";
+import { Toaster } from "@/components/ui/sonner";
 
 type AppLayoutProps = {
   title?: string;
@@ -31,6 +32,7 @@ export default function AppLayout({
           <main className="p-6 w-full mx-auto">{children}</main>
         </div>
       </div>
+      <Toaster />
     </SidebarProvider>
   );
 }
