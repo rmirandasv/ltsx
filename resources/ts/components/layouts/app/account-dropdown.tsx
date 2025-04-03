@@ -2,11 +2,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
 import { Link, usePage } from "@inertiajs/react";
 import { type SharedData } from "@/types";

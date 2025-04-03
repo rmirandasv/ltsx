@@ -3,7 +3,7 @@ import {
   VerticalMenu,
   VerticalMenuList,
   VerticalMenuListItem,
-} from "../ui/vertical-menu";
+} from "@/components/ui/vertical-menu";
 import route from "ziggy-js";
 
 export default function SettingsMenu() {
@@ -11,10 +11,10 @@ export default function SettingsMenu() {
     <VerticalMenu>
       <VerticalMenuList>
         <VerticalMenuListItem active={route().current("settings.profile")}>
-          <Link href={route("settings.profile")}>Profile</Link>
+          <Link href={route("settings.profile")} prefetch>Profile</Link>
         </VerticalMenuListItem>
-        <VerticalMenuListItem active={route().current("settings.account")}>
-          <Link href={route("settings.account")}>Account</Link>
+        <VerticalMenuListItem active={route().current("settings.password")}>
+          <Link href={route("settings.password")} prefetch>Password</Link>
         </VerticalMenuListItem>
       </VerticalMenuList>
     </VerticalMenu>

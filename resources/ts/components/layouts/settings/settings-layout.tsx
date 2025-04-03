@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import SettingsMenu from "./settings-menu";
-import AppLayout from "../layout/app-layout";
+import AppLayout from "@/components/layouts/app/app-layout";
 import { AppBreadcrumbItem } from "@/types";
-import Heading from "../ui/heading";
+import Heading from "@/components/ui/heading";
 
-export default function SettingsPageLayout({
+export default function SettingsLayout({
   children,
   title,
   breadcrumbs = [],

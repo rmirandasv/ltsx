@@ -14,5 +14,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::redirect('/settings', '/settings/profile')->name('settings');
     Route::get('/settings/profile', fn () => Inertia::render('settings/profile'))->name('settings.profile');
-    Route::get('/settings/account', fn () => Inertia::render('settings/account'))->name('settings.account');
+    Route::get('/settings/password', fn () => Inertia::render('settings/password'))->name('settings.password');
 });
