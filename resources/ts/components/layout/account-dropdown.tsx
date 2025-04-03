@@ -35,7 +35,7 @@ export default function AccountDropdown() {
       <DropdownMenuContent className="w-(--radix-dropdown-menu-trigger-width)">
         <DropdownMenuItem className="cursor-pointer" asChild>
           <Link
-            href={route("settings")}
+            href={route("settings.profile")}
             className="flex flex-row items-center space-x-2 w-full"
           >
             <Settings className="size-5" />

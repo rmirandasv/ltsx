@@ -12,7 +12,7 @@ export function VerticalMenuListItem({
     <li
       data-slot="vertical-menu-item"
       className={cn(
-        "w-full *:w-full py-2 px-4 inline-flex items-center gap-1.5 hover:text-foreground transition-colors",
+        "w-full *:w-full py-2 px-4 inline-flex items-start gap-1.5 hover:text-foreground transition-colors",
         {
           "cursor-not-allowed opacity-60": props.disabled,
           "text-foreground bg-accent hover:bg-accent/50 rounded-md": props.active,
@@ -81,7 +81,7 @@ export function VerticalMenu({
   return (
     <nav
       data-slot="vertical-menu"
-      className={cn("w-full px-4 flex flex-col gap-2", className)}
+      className={cn("w-full flex flex-col gap-2", className)}
       {...props}
     />
   );

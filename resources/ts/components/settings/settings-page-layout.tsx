@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import SettingsMenu from "./settings-menu";
 import AppLayout from "../layout/app-layout";
 import { AppBreadcrumbItem } from "@/types";
+import Heading from "../ui/heading";
 
 export default function SettingsPageLayout({
   children,
@@ -14,11 +15,12 @@ export default function SettingsPageLayout({
 }) {
   return (
     <AppLayout title={title} breadcrumbs={breadcrumbs}>
-      <div className="flex flex-col md:flex-row md:gap-4">
-        <div className="w-full md:w-2/12">
+      <Heading title="Settings" description="Manage your account settings" />
+      <div className="flex flex-col md:flex-row md:gap-12">
+        <div className="w-full max-w-xl md:w-56">
           <SettingsMenu />
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 max-w-2xl">{children}</div>
       </div>
     </AppLayout>
   );
