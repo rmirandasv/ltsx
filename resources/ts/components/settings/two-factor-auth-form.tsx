@@ -27,8 +27,8 @@ export default function TwoFactorAuthForm({
   status?: "two-factor-authentication-enabled" | null;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
+  const [downloading, setDownloading] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
-  const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const { auth } = usePage<SharedData>().props;
   const form = useForm({
     resolver: zodResolver(schema),
@@ -100,6 +100,7 @@ export default function TwoFactorAuthForm({
   };
 
   const handleDownloadRecoveryCodes = async () => {
+    setDownloading(true);
     const respone = await axios.get(route("two-factor.recovery-codes"), {
       withCredentials: true,
       headers: {
@@ -107,7 +108,6 @@ export default function TwoFactorAuthForm({
       },
     });
     const codes = respone.data;
-    setRecoveryCodes(codes);
     const blob = new Blob([codes.join("\n")], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -117,6 +117,7 @@ export default function TwoFactorAuthForm({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    setDownloading(false);
   };
 
   useEffect(() => {
@@ -219,8 +220,8 @@ export default function TwoFactorAuthForm({
             place.
           </p>
           <div className="flex flex-col md:flex-row gap-2">
-            <Button onClick={handleDownloadRecoveryCodes} disabled={loading}>
-              {loading ? "Downloading..." : "Download recovery codes"}
+            <Button onClick={handleDownloadRecoveryCodes} disabled={downloading}>
+              {downloading ? "Downloading..." : "Download recovery codes"}
             </Button>
             <Button
               onClick={handleDisableTwoFactor}
