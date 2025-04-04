@@ -82,25 +82,21 @@ export default function TwoFactorAuthForm({
   };
 
   const handleDisableTwoFactor = () => {
-    router.post(
-      route("two-factor.disable"),
-      {},
-      {
-        onStart: () => setLoading(true),
-        onFinish: () => setLoading(false),
-        onSuccess: () => {
-          router.reload();
-        },
-        onError: (error) => {
-          console.error("Error disabling two-factor authentication:", error);
-          form.setError("code", {
-            type: "manual",
-            message:
-              "Failed to disable two-factor authentication. Please try again.",
-          });
-        },
-      }
-    );
+    router.delete(route("two-factor.disable"), {
+      onStart: () => setLoading(true),
+      onFinish: () => setLoading(false),
+      onSuccess: () => {
+        router.reload();
+      },
+      onError: (error) => {
+        console.error("Error disabling two-factor authentication:", error);
+        form.setError("code", {
+          type: "manual",
+          message:
+            "Failed to disable two-factor authentication. Please try again.",
+        });
+      },
+    });
   };
 
   const handleDownloadRecoveryCodes = async () => {
@@ -223,10 +219,7 @@ export default function TwoFactorAuthForm({
             place.
           </p>
           <div className="flex flex-col md:flex-row gap-2">
-            <Button
-              onClick={handleDownloadRecoveryCodes}
-              disabled={loading}
-            >
+            <Button onClick={handleDownloadRecoveryCodes} disabled={loading}>
               {loading ? "Downloading..." : "Download recovery codes"}
             </Button>
             <Button
