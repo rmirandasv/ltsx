@@ -121,7 +121,6 @@ export default function TwoFactorAuthForm({
   };
 
   useEffect(() => {
-    console.log("Status:", status);
     if (status === "two-factor-authentication-enabled") {
       axios
         .get(route("two-factor.qr-code"), {
@@ -133,8 +132,7 @@ export default function TwoFactorAuthForm({
         .then((response) => {
           setQrCode(response.data.svg);
         })
-        .catch((error) => {
-          console.error("Error fetching QR code:", error);
+        .catch(() => {
           setQrCode(null);
         });
     }

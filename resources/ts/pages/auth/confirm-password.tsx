@@ -60,6 +60,7 @@ export default function ConfirmPassword() {
                       type="password"
                       placeholder="Enter your password"
                       {...field}
+                      autoFocus
                     />
                   </FormControl>
                   <FormMessage />

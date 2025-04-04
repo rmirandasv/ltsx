@@ -10,6 +10,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/login', fn () => Inertia::render('auth/login'))->name('login');
 Route::get('/login/2fa', fn () => Inertia::render('auth/2fa'))->name('two-factor.login');
 Route::get('/register', fn () => Inertia::render('auth/register'))->name('register');
+Route::get('/forgot-password', fn () => Inertia::render('auth/forgot-password'))->name('password.request');
+Route::get('/reset-password', fn () => Inertia::render('auth/reset-password'))->name('password.reset');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

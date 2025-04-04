@@ -15,6 +15,7 @@ export type Auth = {
 
 export type SharedData = {
     auth: Auth;
+    status: string | null;
 };
 
 export type AppBreadcrumbItem = {

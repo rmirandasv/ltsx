@@ -67,7 +67,7 @@ export default function TwoFactorAuthPage() {
                 <FormItem>
                   <FormLabel>Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your code" {...field} />
+                    <Input placeholder="Enter your code" {...field} autoFocus autoComplete="off" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
