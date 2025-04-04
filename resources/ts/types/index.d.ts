@@ -6,6 +6,7 @@ export type User = {
   created_at: string;
   updated_at: string;
   email_verified_at?: string;
+  two_factor_confirmed_at: string | null;
 };
 
 export type Auth = {

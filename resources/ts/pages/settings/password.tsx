@@ -1,9 +1,15 @@
 import SettingsLayout from "@/components/layouts/settings/settings-layout";
 import ChangePasswordForm from "@/components/settings/change-password-form";
+import TwoFactorAuthForm from "@/components/settings/two-factor-auth-form";
 import Heading from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
 import route from "ziggy-js";
 
-export default function Password() {
+export default function Password({
+  status,
+}: {
+  status?: "two-factor-authentication-enabled" | null;
+}) {
   return (
     <SettingsLayout
       title="Account password"
@@ -19,6 +25,13 @@ export default function Password() {
         description="Change your password, manage your security settings, and more."
       />
       <ChangePasswordForm />
+      <Separator className="my-6" />
+      <Heading
+        size="small"
+        title="Two-factor authentication"
+        description="Add an extra layer of security to your account."
+      />
+      <TwoFactorAuthForm status={status} />
     </SettingsLayout>
   );
 }
