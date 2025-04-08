@@ -17,7 +17,7 @@ export default function Register() {
           Already have an account?&nbsp;
           <Link
             href={route("login")}
-            className="text-blue-500 hover:underline"
+            className="font-medium underline"
             prefetch
           >
             Log in

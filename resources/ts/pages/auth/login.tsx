@@ -13,7 +13,7 @@ export default function Login() {
             Don't have an account?&nbsp;
             <Link
               href={route("register")}
-              className="text-blue-500 hover:underline"
+              className="font-medium underline"
               prefetch
             >
               Sign up

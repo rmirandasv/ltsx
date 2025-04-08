@@ -38,7 +38,7 @@ export default function ConfirmPassword() {
 
   return (
     <div className="flex flex-col space-y-6 min-h-screen justify-center">
-      <div className="flex flex-col max-w-lg mx-auto">
+      <div className="px-8 lg:px-0 flex flex-col w-full max-w-sm mx-auto">
         <Heading
           size="small"
           title="Confirm Password"
@@ -67,11 +67,9 @@ export default function ConfirmPassword() {
                 </FormItem>
               )}
             />
-            <div className="flex items-center justify-end">
-              <Button disabled={loading}>
-                {loading ? "Loading..." : "Confirm Password"}
-              </Button>
-            </div>
+            <Button className="w-full" disabled={loading}>
+              {loading ? "Loading..." : "Confirm Password"}
+            </Button>
           </form>
         </Form>
       </div>

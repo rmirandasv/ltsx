@@ -54,7 +54,7 @@ export default function ResetPassword() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <div className="max-w-sm w-full flex flex-col">
+      <div className="p-8 lg:px-0 max-w-sm w-full flex flex-col">
         <Heading title="Reset Password" description="Enter your new password" />
         <Form {...form}>
           <form
@@ -101,7 +101,7 @@ export default function ResetPassword() {
                 </FormItem>
               )}
             />
-            <Button disabled={loading}>
+            <Button className="w-full" disabled={loading}>
                 {loading ? "Loading..." : "Reset Password"}
             </Button>
           </form>

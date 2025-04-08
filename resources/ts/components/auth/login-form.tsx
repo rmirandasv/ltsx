@@ -82,7 +82,7 @@ export default function LoginForm() {
                 <FormLabel>Password</FormLabel>
                 <Link
                   href={route("password.request")}
-                  className="text-sm text-blue-500 hover:underline"
+                  className="text-sm text-muted-foreground font-medium underline"
                   prefetch
                 >
                   Forgot password?
