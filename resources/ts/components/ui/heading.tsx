@@ -4,15 +4,18 @@ export default function Heading({
   title,
   description,
   size = "default",
+  center = false,
 }: {
   title: string;
   description?: string;
   size?: "default" | "small";
+  center?: boolean;
 }) {
   return (
     <header
       className={cn("flex flex-col mb-8", {
         "space-y-0.5": size === "default",
+        "items-center text-center": center,
       })}
     >
       <h1

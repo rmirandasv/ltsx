@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
+import route from "ziggy-js";
 
 const schema = z.object({
   email: z
@@ -42,14 +43,12 @@ export default function LoginForm() {
 
   const onSubmit = (values: LoginFormValues) => {
     router.post("/login", values, {
-        onStart: () => setLoading(true),
-        onFinish: () => setLoading(false),
-        onError: (errors) => {
-          const errorMessages = Object.values(errors).map(
-            (error) => error[0]
-          );
-          form.setError("email", { message: errorMessages.join(", ") });
-        }
+      onStart: () => setLoading(true),
+      onFinish: () => setLoading(false),
+      onError: (errors) => {
+        const errorMessages = Object.values(errors).map((error) => error[0]);
+        form.setError("email", { message: errorMessages.join(", ") });
+      },
     });
   };
 
@@ -63,7 +62,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input placeholder="Email" {...field} autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,7 +73,16 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Password</FormLabel>
+                <Link
+                  href={route("password.request")}
+                  className="text-sm text-blue-500 hover:underline"
+                  prefetch
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <FormControl>
                 <Input type="password" placeholder="Password" {...field} />
               </FormControl>
@@ -97,11 +105,9 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <div className="flex justify-end">
-          <Button disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </Button>
-        </div>
+        <Button className="w-full" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </Button>
       </form>
     </Form>
   );

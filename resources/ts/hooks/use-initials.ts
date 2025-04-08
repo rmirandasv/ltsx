@@ -5,5 +5,6 @@ export default function useInitials(name: string) {
     .slice(0, 2)
     .join("")
     .toUpperCase();
-  return initials;
+  const firstName = name.split(" ")[0];
+  return { initials, firstName };
 }
