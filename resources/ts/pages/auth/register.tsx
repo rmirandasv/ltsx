@@ -20,7 +20,7 @@ export default function Register() {
             className="text-blue-500 hover:underline"
             prefetch
           >
-            Login
+            Log in
           </Link>
         </p>
       </div>
