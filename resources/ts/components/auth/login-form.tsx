@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import route from "ziggy-js";
 
 const schema = z.object({
@@ -31,6 +31,7 @@ const schema = z.object({
 export type LoginFormValues = z.infer<typeof schema>;
 
 export default function LoginForm() {
+  const { errors } = usePage().props;
   const [loading, setLoading] = useState<boolean>(false);
   const form = useForm({
     resolver: zodResolver(schema),
@@ -45,9 +46,13 @@ export default function LoginForm() {
     router.post("/login", values, {
       onStart: () => setLoading(true),
       onFinish: () => setLoading(false),
-      onError: (errors) => {
-        const errorMessages = Object.values(errors).map((error) => error[0]);
-        form.setError("email", { message: errorMessages.join(", ") });
+      onError: () => {
+        if(errors.email) {
+          form.setError("email", {
+            type: "manual",
+            message: errors.email,
+          });
+        }
       },
     });
   };
