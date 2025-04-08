@@ -6,7 +6,7 @@ import route from "ziggy-js";
 export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="min-w-sm flex flex-col">
+      <div className="px-8 lg:px-0 min-w-sm flex flex-col">
         <Heading title="Login in to your account" description="Enter your credentials to access your account." center />
         <LoginForm />
           <p className="mt-8 flex justify-center text-sm text-muted-foreground">

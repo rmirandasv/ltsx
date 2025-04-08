@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 const schema = z
   .object({
@@ -32,6 +32,7 @@ const schema = z
 export type RegisterFormValues = z.infer<typeof schema>;
 
 export default function RegisterForm() {
+  const { errors } = usePage().props;
   const [loading, setLoading] = useState<boolean>(false);
   const form = useForm({
     resolver: zodResolver(schema),
@@ -47,6 +48,32 @@ export default function RegisterForm() {
     router.post("/register", data, {
       onStart: () => setLoading(true),
       onFinish: () => setLoading(false),
+      onError: () => {
+        if (errors.email) {
+          form.setError("email", {
+            type: "manual",
+            message: errors.email,
+          });
+        }
+        if (errors.password) {
+          form.setError("password", {
+            type: "manual",
+            message: errors.password,
+          });
+        }
+        if (errors.name) {
+          form.setError("name", {
+            type: "manual",
+            message: errors.name,
+          });
+        }
+        if (errors.password_confirmation) {
+          form.setError("password_confirmation", {
+            type: "manual",
+            message: errors.password_confirmation,
+          });
+        }
+      }
     });
   };
 
@@ -109,11 +136,9 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-end">
-          <Button disabled={loading}>
-            {loading ? "Loading..." : "Register"}
-          </Button>
-        </div>
+        <Button className="w-full" disabled={loading}>
+          {loading ? "Loading..." : "Register"}
+        </Button>
       </form>
     </Form>
   );

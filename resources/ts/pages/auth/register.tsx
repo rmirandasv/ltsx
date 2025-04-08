@@ -1,39 +1,29 @@
 import RegisterForm from "@/components/auth/register-form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import Heading from "@/components/ui/heading";
 import { Link } from "@inertiajs/react";
 import route from "ziggy-js";
 
 export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="min-w-sm">
-        <CardHeader>
-          <CardTitle>Register</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <RegisterForm />
-        </CardContent>
-        <CardFooter>
-          <p className="text-sm text-muted-foreground">
-            Already have an account?&nbsp;
-            <Link
-              href={route("login")}
-              className="text-blue-500 hover:underline"
-              prefetch
-            >
-              Login
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
+      <div className="max-w-sm w-full px-8 lg:px-0 flex flex-col">
+        <Heading
+          title="Create an account"
+          description="Please fill in the form below to create an account."
+          center
+        />
+        <RegisterForm />
+        <p className="mt-8 flex justify-center text-sm text-muted-foreground">
+          Already have an account?&nbsp;
+          <Link
+            href={route("login")}
+            className="text-blue-500 hover:underline"
+            prefetch
+          >
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
