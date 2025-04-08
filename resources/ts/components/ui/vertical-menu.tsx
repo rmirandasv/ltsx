@@ -13,7 +13,7 @@ export function VerticalMenuListItem({
     <li
       data-slot="vertical-menu-item"
       className={cn(
-        "w-full *:w-full py-2 px-4 inline-flex items-start gap-1.5 hover:text-foreground transition-colors",
+        "w-full *:w-full py-2 px-2 lg:px-4 inline-flex items-start gap-1.5 hover:text-foreground transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         {
           "cursor-not-allowed opacity-60": props.disabled,
           "text-foreground bg-accent hover:bg-accent/50 rounded-md": active,
@@ -35,7 +35,7 @@ export function VerticalMenuList({
     <ul
       data-slot="vertical-menu"
       className={cn(
-        "text-muted-foreground flex flex-col items-start gap-1.5 text-sm break-words sm:gap-2.5",
+        "text-muted-foreground flex flex-col items-start gap-1 text-sm break-words",
         className
       )}
       {...props}

@@ -14,7 +14,7 @@ export default function Password({
     <SettingsLayout
       title="Account password"
       breadcrumbs={[
-        { label: "Home", href: route("home") },
+        { label: "Home", href: route("dashboard") },
         { label: "Settings", href: route("settings") },
         { label: "Password", href: route("settings.password") },
       ]}

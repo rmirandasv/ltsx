@@ -13,7 +13,7 @@ export default function Heading({
 }) {
   return (
     <header
-      className={cn("flex flex-col mb-8", {
+      className={cn("flex flex-col mb-3 lg:mb-8", {
         "space-y-0.5": size === "default",
         "items-center text-center": center,
       })}

@@ -12,33 +12,14 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import AccountDropdown from "./account-dropdown";
+import route from "ziggy-js";
+import { Link } from "@inertiajs/react";
 
-// Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: route("dashboard"),
     icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 
@@ -53,10 +34,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
