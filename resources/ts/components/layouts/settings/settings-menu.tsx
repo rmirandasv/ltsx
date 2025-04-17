@@ -16,6 +16,9 @@ export default function SettingsMenu() {
         <VerticalMenuListItem active={route().current("settings.password")}>
           <Link href={route("settings.password")} prefetch>Password</Link>
         </VerticalMenuListItem>
+        <VerticalMenuListItem active={route().current("settings.teams*")}>
+          <Link href={route("settings.teams")} prefetch>Teams</Link>
+        </VerticalMenuListItem>
       </VerticalMenuList>
     </VerticalMenu>
   );

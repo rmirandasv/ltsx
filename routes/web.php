@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,6 +20,17 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('/settings', '/settings/profile')->name('settings');
     Route::get('/settings/profile', [SettingsController::class, 'profile'])->name('settings.profile');
     Route::get('/settings/password', [SettingsController::class, 'password'])->name('settings.password');
+
+    // teams
+    Route::get('/settings/teams', [TeamController::class, 'index'])->name('settings.teams');
+    Route::get('/settings/teams/{team}', [TeamController::class, 'show'])->name('settings.teams.show');
+    Route::get('/settings/teams/{team}/accept', [TeamController::class, 'accept'])->name('settings.teams.accept')->middleware('signed');
+    Route::post('/settings/teams/{team}/accept', [TeamController::class, 'join'])->name('settings.teams.join')->middleware('signed');
+    Route::post('/settings/teams', [TeamController::class, 'store'])->name('settings.teams.store');
+    Route::post('/settings/teams/{team}/invite', [TeamController::class, 'invite'])->name('settings.teams.invite');
+    Route::put('/settings/teams/{team}', [TeamController::class, 'update'])->name('settings.teams.update');
+    Route::delete('/settings/teams/{team}', [TeamController::class, 'destroy'])->name('settings.teams.destroy')->middleware('password.confirm');
+    Route::post('/settings/teams/{team}/swith', [TeamController::class, 'switch'])->name('settings.teams.switch');
 
     Route::get('/user/confirm-password', function () {
         return Inertia::render('auth/confirm-password');

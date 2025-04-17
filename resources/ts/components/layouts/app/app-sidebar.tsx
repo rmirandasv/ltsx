@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,6 +15,7 @@ import {
 import AccountDropdown from "./account-dropdown";
 import route from "ziggy-js";
 import { Link } from "@inertiajs/react";
+import TeamsDropdown from "./teams-dropdown";
 
 const items = [
   {
@@ -26,6 +28,9 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar>
+      <SidebarHeader>
+        <TeamsDropdown />
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>

@@ -87,7 +87,7 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Name" {...field} />
+                <Input placeholder="Name" {...field} autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>
