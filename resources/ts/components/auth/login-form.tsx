@@ -1,5 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -12,9 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import route from "ziggy-js";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   email: z
@@ -28,38 +26,20 @@ const schema = z.object({
     .max(255, "Password must be less than 255 characters"),
   remember: z.boolean().optional(),
 });
-export type LoginFormValues = z.infer<typeof schema>;
-
 export default function LoginForm() {
-  const { errors } = usePage().props;
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: "",
-      password: "",
-      remember: false,
-    },
+  const {
+    form,
+    loading,
+    handleSubmit
+  } = useFormHandler(schema, route("login"), {
+    email: "",
+    password: "",
+    remember: false,
   });
-
-  const onSubmit = (values: LoginFormValues) => {
-    router.post("/login", values, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-      onError: () => {
-        if(errors.email) {
-          form.setError("email", {
-            type: "manual",
-            message: errors.email,
-          });
-        }
-      },
-    });
-  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="email"

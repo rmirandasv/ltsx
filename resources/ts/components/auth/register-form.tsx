@@ -1,6 +1,4 @@
-import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -11,8 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
-import { router, usePage } from "@inertiajs/react";
+import useFormHandler from "@/hooks/use-form-handler";
+import route from "ziggy-js";
 
 const schema = z
   .object({
@@ -29,53 +27,17 @@ const schema = z
     message: "Passwords don't match",
   });
 
-export type RegisterFormValues = z.infer<typeof schema>;
-
 export default function RegisterForm() {
-  const { errors } = usePage().props;
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("register"),
+    {
       name: "",
       email: "",
       password: "",
       password_confirmation: "",
-    },
-  });
-
-  const handleSubmit = (data: RegisterFormValues) => {
-    router.post("/register", data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-      onError: () => {
-        if (errors.email) {
-          form.setError("email", {
-            type: "manual",
-            message: errors.email,
-          });
-        }
-        if (errors.password) {
-          form.setError("password", {
-            type: "manual",
-            message: errors.password,
-          });
-        }
-        if (errors.name) {
-          form.setError("name", {
-            type: "manual",
-            message: errors.name,
-          });
-        }
-        if (errors.password_confirmation) {
-          form.setError("password_confirmation", {
-            type: "manual",
-            message: errors.password_confirmation,
-          });
-        }
-      }
-    });
-  };
+    }
+  );
 
   return (
     <Form {...form}>
