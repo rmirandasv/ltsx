@@ -7,6 +7,7 @@ use App\Actions\Team\DeleteTeam;
 use App\Actions\Team\DeleteTeamInvitation;
 use App\Actions\Team\InviteTeamMember;
 use App\Actions\Team\JoinTeam;
+use App\Actions\Team\LeaveTeam;
 use App\Actions\Team\RemoveUserFromTeam;
 use App\Actions\Team\SwitchCurrentTeam;
 use App\Models\Team;
@@ -113,9 +114,11 @@ class TeamController extends Controller
         return redirect()->route('settings.teams.show', ['team' => $team]);
     }
 
-    public function leave(Team $team, Request $request)
+    public function leave(Team $team, Request $request, LeaveTeam $leaveTeam)
     {
-        // user leaves team
+        $leaveTeam->handle($request->user(), $team);
+
+        return redirect()->route('settings.teams');
     }
 
     public function remove(Team $team, User $user, Request $request, RemoveUserFromTeam $removeUserFromTeam)

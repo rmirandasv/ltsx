@@ -55,6 +55,12 @@ export default function ShowTeamPage({
     },
     [team.id]
   );
+  const handleLeaveTeam = useCallback(() => {
+    router.delete(route("settings.teams.leave", { team: team.id }), {
+      onStart: () => setLoading(true),
+      onFinish: () => setLoading(false),
+    });
+  }, [team.id]);
   return (
     <SettingsLayout
       title="Team"
@@ -166,6 +172,23 @@ export default function ShowTeamPage({
             disabled={loading}
           >
             {loading ? "Deleting..." : "Delete Team"}
+          </Button>
+        </div>
+      )}
+      {team.user_id !== auth.user.id && (
+        <div className="mt-4 p-4 border border-red-200 rounded-md bg-red-50">
+          <h3 className="text-sm font-medium text-red-800">Leave Team</h3>
+          <p className="mt-1 text-sm text-red-700">
+            Leaving a team will remove you from the team and its members. This
+            action cannot be undone.
+          </p>
+          <Button
+            variant="destructive"
+            className="mt-2"
+            onClick={handleLeaveTeam}
+            disabled={loading}
+          >
+            {loading ? "Leaving..." : "Leave Team"}
           </Button>
         </div>
       )}

@@ -97,4 +97,16 @@ class TeamPolicy
             ->wherePivot('role', 'owner')
             ->exists();
     }
+
+    public function leave(User $user, Team $team): bool
+    {
+        if ($user->id === $team->user_id) {
+            return false;
+        }
+
+        return $team->members()
+            ->where('user_id', $user->id)
+            ->wherePivot('role', '!=', 'owner')
+            ->exists();
+    }
 }

@@ -15,7 +15,9 @@ class RemoveUserFromTeam
         $team->removeMember($userToRemove);
 
         $personalTeam = $userToRemove->teams()
+            ->where('user_id', $userToRemove->id)
             ->where('personal_team', true)
+            ->wherePivot('role', 'owner')
             ->first();
 
         if ($userToRemove->current_team_id === $team->id) {
