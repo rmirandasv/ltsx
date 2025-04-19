@@ -23,7 +23,7 @@ export default function AcceptInvitation({
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="max-w-2xl w-full mx-auto flex flex-col">
         <Heading title={`Accept Invitation to ${team.name}`} size="large" />
-        <p className="text-muted-foreground text-sm mb-4">
+        <p className="text-muted-foreground text-base mb-4">
           Hello {auth.user.name}, you have been invited to join the team&nbsp;
           <strong>{team.name}</strong> .To accept the invitation, please click
           the button below.

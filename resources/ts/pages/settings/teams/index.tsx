@@ -1,5 +1,6 @@
 import SettingsLayout from "@/components/layouts/settings/settings-layout";
 import CreateTeamDialog from "@/components/settings/create-team";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { SharedData, Team } from "@/types";
@@ -28,13 +29,24 @@ export default function TeamsPage({ teams }: { teams: Team[] }) {
           >
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col">
-                <span className="text-sm font-medium">{team.name}</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm font-medium">{team.name}</span>
+                  <Badge variant="secondary">
+                    {team.members_count}&nbsp;
+                    {team.members_count === 1 ? "Member" : "Members"}
+                  </Badge>
+                </div>
                 {team.personal_team == true &&
                   team.user_id === auth.user.id && (
                     <span className="text-sm text-muted-foreground">
                       Personal Team
                     </span>
                   )}
+                {team.user_id !== auth.user.id && (
+                  <span className="text-sm text-muted-foreground uppercase">
+                    {team.pivot?.role}
+                  </span>
+                )}
               </div>
               <Button variant="link" asChild>
                 <Link href={route("settings.teams.show", team.id)}>Manage</Link>

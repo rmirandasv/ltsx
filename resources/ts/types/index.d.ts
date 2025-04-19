@@ -26,6 +26,12 @@ export type Team = {
   updated_at: string;
   members: User[];
   invitations: TeamInvitation[];
+  pivot?: {
+    user_id: number;
+    team_id: number;
+    role: string;
+  };
+  members_count: number;
 };
 
 export type TeamInvitation = {

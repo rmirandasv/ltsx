@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Team\CreateTeam;
 use App\Actions\Team\DeleteTeam;
 use App\Actions\Team\InviteTeamMember;
+use App\Actions\Team\JoinTeam;
 use App\Actions\Team\SwitchCurrentTeam;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class TeamController extends Controller
         Gate::authorize('viewAny', Team::class);
 
         $teams = $request->user()->teams()
+            ->withCount('members')
             ->orderBy(column: 'personal_team', direction: 'desc')
             ->get();
         
@@ -93,11 +95,9 @@ class TeamController extends Controller
         );
     }
 
-    public function join(Team $team, Request $request)
+    public function join(Team $team, Request $request, JoinTeam $joinTeam)
     {
-        Gate::authorize('accept', $team);
-
-        $request->user()->teams()->attach($team);
+        $joinTeam->handle($team, $request->user(), $request->input('invitation'));
 
         return redirect()->route('settings.teams.show', ['team' => $team]);
     }
