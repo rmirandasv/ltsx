@@ -36,14 +36,12 @@ export default function TeamsPage({ teams }: { teams: Team[] }) {
                     {team.members_count === 1 ? "Member" : "Members"}
                   </Badge>
                 </div>
-                {team.personal_team == true &&
-                  team.user_id === auth.user.id && (
-                    <span className="text-sm text-muted-foreground">
-                      Personal Team
-                    </span>
-                  )}
-                {team.user_id !== auth.user.id && (
-                  <span className="text-sm text-muted-foreground uppercase">
+                {team.personal_team == true && team.user_id === auth.user.id ? (
+                  <span className="text-sm text-muted-foreground">
+                    Personal Team
+                  </span>
+                ) : (
+                  <span className="text-sm text-muted-foreground">
                     {team.pivot?.role}
                   </span>
                 )}

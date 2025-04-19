@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings/teams/{team}/accept', [TeamController::class, 'join'])->name('settings.teams.join')->middleware('signed');
     Route::post('/settings/teams', [TeamController::class, 'store'])->name('settings.teams.store');
     Route::post('/settings/teams/{team}/invite', [TeamController::class, 'invite'])->name('settings.teams.invite');
+    Route::delete('/settings/teams/{team}/invite/{invite}', [TeamController::class, 'destroyInvite'])->name('settings.teams.invite.destroy');
     Route::put('/settings/teams/{team}', [TeamController::class, 'update'])->name('settings.teams.update');
     Route::delete('/settings/teams/{team}', [TeamController::class, 'destroy'])->name('settings.teams.destroy')->middleware('password.confirm');
     Route::post('/settings/teams/{team}/swith', [TeamController::class, 'switch'])->name('settings.teams.switch');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class TeamUser extends Pivot
@@ -17,4 +18,11 @@ class TeamUser extends Pivot
         'team_id',
         'role',
     ];
+
+    protected function role(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ucfirst($value),
+        );
+    }
 }

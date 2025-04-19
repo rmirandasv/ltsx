@@ -5,7 +5,7 @@ import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { SharedData, Team, User } from "@/types";
 import { router, usePage } from "@inertiajs/react";
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import route from "ziggy-js";
 
 export default function ShowTeamPage({
@@ -17,13 +17,29 @@ export default function ShowTeamPage({
 }) {
   const { auth } = usePage<SharedData>().props;
   const [loading, setLoading] = useState<boolean>(false);
+  const [revoking, setRevoking] = useState<boolean>(false);
 
-  const handleDeleteTeam = () => {
+  const handleDeleteTeam = useCallback(() => {
     router.delete(route("settings.teams.destroy", { team: team.id }), {
       onBefore: () => setLoading(true),
       onFinish: () => setLoading(false),
     });
-  };
+  }, [team.id]);
+  const handleRevokeInvite = useCallback(
+    (inviteId: number) => {
+      router.delete(
+        route("settings.teams.invite.destroy", {
+          team: team.id,
+          invite: inviteId,
+        }),
+        {
+          onStart: () => setRevoking(true),
+          onFinish: () => setRevoking(false),
+        }
+      );
+    },
+    [team.id]
+  );
   return (
     <SettingsLayout
       title="Team"
@@ -65,7 +81,9 @@ export default function ShowTeamPage({
               {members.length === 1 ? "Member" : "Members"}
             </span>
           </div>
-          <InviteTeamMemberDialog team={team} />
+          {(team.user_id === auth.user.id ||
+            team.members.find((member) => member.id === auth.user.id)?.pivot
+              ?.role === "admin") && <InviteTeamMemberDialog team={team} />}
         </div>
         <ul className="mt-4 flex flex-col gap-2">
           {members.map((member) => (
@@ -76,43 +94,51 @@ export default function ShowTeamPage({
               <span className="text-sm text-muted-foreground">
                 {member.name}
               </span>
-              {member.id === auth.user.id && (
-                <span className="text-sm text-muted-foreground">You</span>
-              )}
+              <span className="text-sm text-muted-foreground uppercase">
+                {member.pivot?.role}
+              </span>
             </li>
           ))}
         </ul>
-        {team.invitations.length > 0 && (
+        {team.user_id === auth.user.id && team.invitations.length > 0 && (
           <Fragment>
             <Separator orientation="horizontal" className="my-2" />
             <span className="text-sm font-medium">Pending Invites</span>
             <ul className="mt-4 flex flex-col gap-2">
               {team.invitations.map((invite) => (
-                <li key={`invite-${invite.id}`}>
+                <li
+                  key={`invite-${invite.id}`}
+                  className="flex flex-row items-center justify-between"
+                >
                   <span className="text-sm text-muted-foreground">
                     {invite.email}
                   </span>
+                  <Button variant="ghost" size="sm" onClick={() => handleRevokeInvite(invite.id)} disabled={revoking}>
+                    {revoking ? "Revoking..." : "Revoke"}
+                  </Button>
                 </li>
               ))}
             </ul>
           </Fragment>
         )}
       </div>
-      <div className="mt-4 p-4 border border-red-200 rounded-md bg-red-50">
-        <h3 className="text-sm font-medium text-red-800">Delete Team</h3>
-        <p className="mt-1 text-sm text-red-700">
-          Deleting a team will remove all of its members and their access to the
-          team. This action cannot be undone.
-        </p>
-        <Button
-          variant="destructive"
-          className="mt-2"
-          onClick={handleDeleteTeam}
-          disabled={loading}
-        >
-          {loading ? "Deleting..." : "Delete Team"}
-        </Button>
-      </div>
+      {team.user_id === auth.user.id && team.personal_team === false && (
+        <div className="mt-4 p-4 border border-red-200 rounded-md bg-red-50">
+          <h3 className="text-sm font-medium text-red-800">Delete Team</h3>
+          <p className="mt-1 text-sm text-red-700">
+            Deleting a team will remove all of its members and their access to
+            the team. This action cannot be undone.
+          </p>
+          <Button
+            variant="destructive"
+            className="mt-2"
+            onClick={handleDeleteTeam}
+            disabled={loading}
+          >
+            {loading ? "Deleting..." : "Delete Team"}
+          </Button>
+        </div>
+      )}
     </SettingsLayout>
   );
 }
