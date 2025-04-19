@@ -40,6 +40,21 @@ export default function ShowTeamPage({
     },
     [team.id]
   );
+  const handleRemoveMember = useCallback(
+    (memberId: number) => {
+      router.delete(
+        route("settings.teams.remove", {
+          team: team.id,
+          user: memberId,
+        }),
+        {
+          onStart: () => setLoading(true),
+          onFinish: () => setLoading(false),
+        }
+      );
+    },
+    [team.id]
+  );
   return (
     <SettingsLayout
       title="Team"
@@ -85,19 +100,29 @@ export default function ShowTeamPage({
             team.members.find((member) => member.id === auth.user.id)?.pivot
               ?.role === "admin") && <InviteTeamMemberDialog team={team} />}
         </div>
-        <ul className="mt-4 flex flex-col gap-2">
-          {members.map((member) => (
-            <li
-              key={`member-${member.id}`}
-              className="flex flex-row items-center justify-between"
-            >
-              <span className="text-sm text-muted-foreground">
-                {member.name}
-              </span>
-              <span className="text-sm text-muted-foreground uppercase">
-                {member.pivot?.role}
-              </span>
-            </li>
+        <ul className="mt-4 flex flex-col gap-2 px-2">
+          {members.map((member, index) => (
+            <Fragment key={`member-${member.id}`}>
+              <li className="flex flex-row items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="text-sm text-muted-foreground">
+                    {member.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {member.pivot?.role}
+                  </span>
+                </div>
+                {team.user_id === auth.user.id &&
+                  member.id !== auth.user.id && (
+                    <Button variant="ghost" size="sm" disabled={loading} onClick={() => handleRemoveMember(member.id)}>
+                      {loading ? "Removing..." : "Remove"}
+                    </Button>
+                  )}
+              </li>
+              {index < members.length - 1 && (
+                <Separator orientation="horizontal" className="" />
+              )}
+            </Fragment>
           ))}
         </ul>
         {team.user_id === auth.user.id && team.invitations.length > 0 && (
@@ -113,7 +138,12 @@ export default function ShowTeamPage({
                   <span className="text-sm text-muted-foreground">
                     {invite.email}
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleRevokeInvite(invite.id)} disabled={revoking}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRevokeInvite(invite.id)}
+                    disabled={revoking}
+                  >
                     {revoking ? "Revoking..." : "Revoke"}
                   </Button>
                 </li>
@@ -122,7 +152,7 @@ export default function ShowTeamPage({
           </Fragment>
         )}
       </div>
-      {team.user_id === auth.user.id && team.personal_team === false && (
+      {team.user_id === auth.user.id && team.personal_team == false && (
         <div className="mt-4 p-4 border border-red-200 rounded-md bg-red-50">
           <h3 className="text-sm font-medium text-red-800">Delete Team</h3>
           <p className="mt-1 text-sm text-red-700">

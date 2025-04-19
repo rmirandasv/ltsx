@@ -7,9 +7,11 @@ use App\Actions\Team\DeleteTeam;
 use App\Actions\Team\DeleteTeamInvitation;
 use App\Actions\Team\InviteTeamMember;
 use App\Actions\Team\JoinTeam;
+use App\Actions\Team\RemoveUserFromTeam;
 use App\Actions\Team\SwitchCurrentTeam;
 use App\Models\Team;
 use App\Models\TeamInvitation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -107,6 +109,20 @@ class TeamController extends Controller
     public function destroyInvite(Team $team, TeamInvitation $invite, DeleteTeamInvitation $deleteTeamInvitation)
     {
         $deleteTeamInvitation->handle($invite);
+
+        return redirect()->route('settings.teams.show', ['team' => $team]);
+    }
+
+    public function leave(Team $team, Request $request)
+    {
+        // user leaves team
+    }
+
+    public function remove(Team $team, User $user, Request $request, RemoveUserFromTeam $removeUserFromTeam)
+    {
+        Gate::authorize('removeUser', $team);
+
+        $removeUserFromTeam->handle($request->user(), $team, $user);
 
         return redirect()->route('settings.teams.show', ['team' => $team]);
     }

@@ -29,9 +29,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings/teams', [TeamController::class, 'store'])->name('settings.teams.store');
     Route::post('/settings/teams/{team}/invite', [TeamController::class, 'invite'])->name('settings.teams.invite');
     Route::delete('/settings/teams/{team}/invite/{invite}', [TeamController::class, 'destroyInvite'])->name('settings.teams.invite.destroy');
+    Route::delete('/settings/teams/{team}/leave', [TeamController::class, 'leave'])->name('settings.teams.leave');
+    Route::delete('/settings/teams/{team}/{user}', [TeamController::class, 'remove'])->name('settings.teams.remove');
     Route::put('/settings/teams/{team}', [TeamController::class, 'update'])->name('settings.teams.update');
     Route::delete('/settings/teams/{team}', [TeamController::class, 'destroy'])->name('settings.teams.destroy')->middleware('password.confirm');
-    Route::post('/settings/teams/{team}/swith', [TeamController::class, 'switch'])->name('settings.teams.switch');
+    Route::post('/settings/teams/{team}/switch', [TeamController::class, 'switch'])->name('settings.teams.switch');
 
     Route::get('/user/confirm-password', function () {
         return Inertia::render('auth/confirm-password');

@@ -89,4 +89,12 @@ class TeamPolicy
             ->where('email', $user->email)
             ->exists();
     }
+
+    public function removeUser(User $user, Team $team): bool
+    {
+        return $team->members()
+            ->where('user_id', $user->id)
+            ->wherePivot('role', 'owner')
+            ->exists();
+    }
 }
