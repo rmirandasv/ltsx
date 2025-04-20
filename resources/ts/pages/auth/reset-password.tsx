@@ -1,6 +1,4 @@
 import Heading from "@/components/ui/heading";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -12,9 +10,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import route from "ziggy-js";
-import { useState } from "react";
-import { router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z
   .object({
@@ -32,25 +29,17 @@ const schema = z
   });
 
 export default function ResetPassword() {
-  const [loading, setLoading] = useState<boolean>(false);
   const { email, token } =
     (route().params as { email: string; token: string }) || {};
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("password.update", {
       email,
       token,
       password: "",
       password_confirmation: "",
-    },
-  });
-
-  const handleSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("password.update"), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-    });
-  };
+    })
+  );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
@@ -102,7 +91,7 @@ export default function ResetPassword() {
               )}
             />
             <Button className="w-full" disabled={loading}>
-                {loading ? "Loading..." : "Reset Password"}
+              {loading ? "Loading..." : "Reset Password"}
             </Button>
           </form>
         </Form>

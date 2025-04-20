@@ -9,12 +9,9 @@ import {
 } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { router, usePage } from "@inertiajs/react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import route from "ziggy-js";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   code: z
@@ -24,29 +21,13 @@ const schema = z.object({
 });
 
 export default function TwoFactorAuthPage() {
-  const { errors } = usePage().props;
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("two-factor.login.store"),
+    {
       code: "",
-    },
-  });
-
-  const handleSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("two-factor.login.store"), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-      onError: () => {
-        if (errors) {
-          form.setError("code", {
-            type: "manual",
-            message: "Invalid code",
-          });
-        }
-      },
-    });
-  };
+    }
+  );
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background">
@@ -67,7 +48,12 @@ export default function TwoFactorAuthPage() {
                 <FormItem>
                   <FormLabel>Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your code" {...field} autoFocus autoComplete="off" />
+                    <Input
+                      placeholder="Enter your code"
+                      {...field}
+                      autoFocus
+                      autoComplete="off"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

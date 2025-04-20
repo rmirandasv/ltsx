@@ -6,9 +6,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -17,12 +14,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import route from "ziggy-js";
-import { router } from "@inertiajs/react";
-import { toast } from "sonner";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   name: z.string().min(1, {
@@ -31,22 +27,10 @@ const schema = z.object({
 });
 
 export default function CreateTeamDialog() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-    },
+  const { form, loading, handleSubmit } = useFormHandler(schema, route("settings.teams.store"), {
+    name: "",
   });
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("settings.teams.store"), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-      onSuccess: () => {
-        toast("Team created successfully");
-      },
-    });
-  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -63,7 +47,7 @@ export default function CreateTeamDialog() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"

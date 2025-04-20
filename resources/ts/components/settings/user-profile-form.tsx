@@ -1,6 +1,4 @@
 import { User } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -9,12 +7,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { router } from "@inertiajs/react";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import route from "ziggy-js";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   name: z
@@ -27,27 +24,15 @@ const schema = z.object({
     .max(100, { message: "Email must be less than 100 characters" }),
 });
 
-export type UserProfileFormValues = z.infer<typeof schema>;
-
 export default function UserProfileForm({ user }: { user: User }) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: user.name,
-      email: user.email,
-    },
+  const { form, loading, handleSubmit } = useFormHandler(schema, route("user-profile-information.update"), {
+    name: user.name,
+    email: user.email,
   });
-  const onSubmit = (data: UserProfileFormValues) => {
-    router.put(route("user-profile-information.update"), data, {
-        onStart: () => setLoading(true),
-        onFinish: () => setLoading(false),
-    });
-  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="name"
@@ -75,9 +60,7 @@ export default function UserProfileForm({ user }: { user: User }) {
           )}
         />
         <div className="flex justify-end">
-          <Button disabled={loading}>
-            {loading ? "Saving..." : "Save"}
-          </Button>
+          <Button disabled={loading}>{loading ? "Saving..." : "Save"}</Button>
         </div>
       </form>
     </Form>

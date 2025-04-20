@@ -8,15 +8,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, router, usePage } from "@inertiajs/react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Link, usePage } from "@inertiajs/react";
+import { useEffect } from "react";
 import { toast, Toaster } from "sonner";
 import { z } from "zod";
 import route from "ziggy-js";
 import { SharedData } from "@/types";
 import Heading from "@/components/ui/heading";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -24,26 +23,20 @@ const schema = z.object({
 
 export default function ForgotPassword() {
   const { status } = usePage<SharedData>().props;
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: "",
-    },
-  });
 
-  const handleSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("password.email"), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-    });
-  };
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("password.email"),
+    {
+      email: "",
+    }
+  );
 
   useEffect(() => {
     if (status) {
       form.reset();
       toast(status, {
-        duration: 5000,
+        duration: 10000,
       });
     }
   }, [status]);
@@ -69,7 +62,7 @@ export default function ForgotPassword() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input placeholder="Enter your email" {...field} autoFocus />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,7 +75,10 @@ export default function ForgotPassword() {
         </Form>
         <div className="mt-8 flex justify-center">
           <p className="text-sm text-muted-foreground">
-            Or, return to&nbsp;<Link className="font-medium underline" href={route("login")}>log in</Link>
+            Or, return to&nbsp;
+            <Link className="font-medium underline" href={route("login")}>
+              log in
+            </Link>
           </p>
         </div>
       </div>

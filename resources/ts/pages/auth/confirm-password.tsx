@@ -9,32 +9,21 @@ import {
 } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "@inertiajs/react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import route from "ziggy-js";
-import { useState } from "react";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   password: z.string().nonempty("Password is required"),
 });
 
 export default function ConfirmPassword() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("password.confirm.store", {
       password: "",
-    },
-  });
-
-  const handleSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("password.confirm.store"), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
-    });
-  };
+    })
+  );
 
   return (
     <div className="flex flex-col space-y-6 min-h-screen justify-center">

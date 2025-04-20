@@ -6,9 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -17,7 +15,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -26,11 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import route from "ziggy-js";
-import { router } from "@inertiajs/react";
 import { Team } from "@/types";
 import { toast } from "sonner";
+import useFormHandler from "@/hooks/use-form-handler";
 
 const schema = z.object({
   email: z.string().email(),
@@ -39,25 +37,22 @@ const schema = z.object({
 
 export default function InviteTeamMemberDialog({ team }: { team: Team }) {
   const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
+  const { form, loading, handleSubmit } = useFormHandler(
+    schema,
+    route("settings.teams.invite", team.id),
+    {
       email: "",
       role: "user",
     },
-  });
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("settings.teams.invite", team.id), data, {
-      onStart: () => setLoading(true),
-      onFinish: () => setLoading(false),
+    {
       onSuccess: () => {
         form.reset();
         setOpen(false);
         toast("Team member invited successfully");
-      }
-    });
-  };
+      },
+    }
+  );
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="text-sm text-muted-foreground underline font-semibold">
@@ -73,7 +68,7 @@ export default function InviteTeamMemberDialog({ team }: { team: Team }) {
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="grid grid-cols-1 gap-4 lg:grid-cols-2"
           >
             <FormField
