@@ -18,7 +18,7 @@ export default function TeamsDropdown() {
   const { initials } = useInitials(auth.user.currentTeam.name);
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex flex-row justify-between items-center cursor-pointer px-2 py-2 bg-background">
+      <DropdownMenuTrigger className="flex flex-row justify-between items-center cursor-pointer px-2 py-2 bg-background rounded-md">
         <div className="flex flex-row items-center space-x-2">
           <Avatar>
             <AvatarFallback>{initials}</AvatarFallback>
