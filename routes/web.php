@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     // teams
     Route::get('/settings/teams', [TeamController::class, 'index'])->name('settings.teams');
     Route::get('/settings/teams/{team}', [TeamController::class, 'show'])->name('settings.teams.show');
+    Route::get('/settings/theme', [SettingsController::class, 'theme'])->name('settings.theme');
     Route::get('/settings/teams/{team}/accept', [TeamController::class, 'accept'])->name('settings.teams.accept')->middleware('signed');
     Route::post('/settings/teams/{team}/accept', [TeamController::class, 'join'])->name('settings.teams.join')->middleware('signed');
     Route::post('/settings/teams', [TeamController::class, 'store'])->name('settings.teams.store');

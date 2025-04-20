@@ -20,4 +20,9 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function theme()
+    {
+        return Inertia::render('settings/theme');
+    }
+
 }

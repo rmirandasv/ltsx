@@ -19,6 +19,9 @@ export default function SettingsMenu() {
         <VerticalMenuListItem active={route().current("settings.teams*")}>
           <Link href={route("settings.teams")} prefetch>Teams</Link>
         </VerticalMenuListItem>
+        <VerticalMenuListItem active={route().current("settings.theme")}>
+          <Link href={route("settings.theme")} prefetch>Theme</Link>
+        </VerticalMenuListItem>
       </VerticalMenuList>
     </VerticalMenu>
   );
