@@ -121,7 +121,7 @@ class TeamController extends Controller
         return redirect()->route('settings.teams');
     }
 
-    public function remove(Team $team, User $user, Request $request, RemoveUserFromTeam $removeUserFromTeam)
+    public function removeUser(Team $team, User $user, Request $request, RemoveUserFromTeam $removeUserFromTeam)
     {
         Gate::authorize('removeUser', $team);
 

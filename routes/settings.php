@@ -95,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete(
         '/settings/teams/{team}/{user}', 
-        [TeamController::class, 'remove']
+        [TeamController::class, 'removeUser']
     )
     ->name('settings.teams.remove');
 
