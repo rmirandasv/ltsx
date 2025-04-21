@@ -33,7 +33,7 @@ export default function TeamsDropdown() {
         <DropdownMenuLabel>Teams</DropdownMenuLabel>
         {auth.user.teams.map((team) => (
           <DropdownMenuItem key={team.id} className="cursor-pointer" asChild>
-            <Link method="post" href={route("settings.teams.switch", team.id)}>
+            <Link method="post" href={route("settings.teams.switch", team.id)} className="w-full">
               <span>{team.name}</span>
             </Link>
           </DropdownMenuItem>
