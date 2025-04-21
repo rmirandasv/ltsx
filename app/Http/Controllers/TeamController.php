@@ -41,7 +41,14 @@ class TeamController extends Controller
 
         $team = $createTeam->handle(user: $request->user(), data: $request->all());
 
-        return redirect()->route('settings.teams.show', ['team' => $team]);
+        return redirect()
+            ->route('settings.teams.show', ['team' => $team])
+            ->with([
+                'flash' => [
+                    'type' => 'success',
+                    'message' => __('Team created successfully.'),
+                ],
+            ]);
     }
 
     public function show(Request $request, Team $team)

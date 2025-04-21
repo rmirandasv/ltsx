@@ -42,6 +42,10 @@ class HandleInertiaRequests extends Middleware
                     ?->only('id', 'name', 'email', 'teams', 'current_team_id', 'currentTeam'),
             ],
             'status' => $request->session()->get('status', null),
+            'flash' => [
+                'type' => $request->session()->get('flash.type', null),
+                'message' => $request->session()->get('flash.message', null),
+            ],
         ]);
     }
 }

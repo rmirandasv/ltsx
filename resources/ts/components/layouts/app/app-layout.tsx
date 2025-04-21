@@ -1,10 +1,11 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { AppSidebar } from "./app-sidebar";
-import { Head } from "@inertiajs/react";
-import { AppBreadcrumbItem } from "@/types";
+import { Head, usePage } from "@inertiajs/react";
+import { AppBreadcrumbItem, SharedData } from "@/types";
 import AppBreadcrumb from "./app-breadcrumb";
 import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 type AppLayoutProps = {
   title?: string;
@@ -17,6 +18,14 @@ export default function AppLayout({
   breadcrumbs,
   children,
 }: AppLayoutProps) {
+  const { flash } = usePage<SharedData>().props;
+
+  useEffect(() => {
+    if (flash && flash.message) {
+      toast(flash.message);
+    }
+  }, [flash]);
+
   return (
     <SidebarProvider>
       <Head title={title} />
@@ -31,8 +40,8 @@ export default function AppLayout({
           </div>
           <main className="p-6 w-full mx-auto">{children}</main>
         </div>
+        <Toaster />
       </div>
-      <Toaster />
     </SidebarProvider>
   );
 }

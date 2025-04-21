@@ -51,6 +51,12 @@ export type Auth = {
 export type SharedData = {
     auth: Auth;
     status: string | null;
+    flash: Flash | null;
+};
+
+export type Flash = {
+  type: string;
+  message: string;
 };
 
 export type AppBreadcrumbItem = {
